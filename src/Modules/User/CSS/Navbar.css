@@ -1,0 +1,133 @@
+.Navbar *, .Navbar {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.Navbar {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 60px;
+  background-color: #ffffff;
+  color: #000000;
+  font-family: lato, sans-serif;
+  padding: 0 20px;
+}
+
+.Navbar .brand{
+  margin-right: 25px;
+}
+
+.Navbar .brand h2{
+  font-family: 'Mulish', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.Navbar .brand h2::first-letter {
+  font-size: 2.2rem;
+  color: #ff9e0d;
+}
+
+.Navbar .searchBar{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: 900px;
+  height: 45px;
+  border-radius: 5px;
+  padding: 0px 15px;
+  margin: 0 25px;
+}
+
+.Navbar .searchBar .search-icn{
+  position: absolute;
+  left: 20px;
+  color: rgb(89, 88, 88);
+}
+
+.Navbar .searchBar input{
+  width: 70%;
+  height: 80%;
+  border: none;
+  border-radius: 8px;
+  background-color: #f4b557c7;
+  color: #000000;
+  padding-left: 30px;
+  font-size: .8rem;
+}
+
+.Navbar .searchBar input::placeholder{
+  color: rgb(89, 88, 88);
+  font-size: .8rem;
+}
+
+.Navbar .links{
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 20px;
+  margin: 0 25px;
+}
+
+/*
+.Navbar .links a::after{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background-color: rgb(0, 0, 0);
+  transition: width 0.3s ease-in-out;
+}
+
+.Navbar .links a:hover::after{
+  width: 100%;
+} */
+
+.Navbar button{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 40px;
+  padding: 0 10px;
+  margin-left: 25px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f6a223c8;
+  color: #ffffff;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+  &:hover{
+    background-color: #ff9900;
+    color: #000000;
+  }
+}
+
+.Navbar .links a{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 40px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 8px;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 1rem;
+  text-decoration: none;
+  color: #000000;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+  &:hover{
+    background-color: #d1d1d1;
+    color: #ffffff;
+  }
+}
