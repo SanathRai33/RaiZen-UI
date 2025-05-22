@@ -22,26 +22,37 @@ export default function Home({ searchTerm }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:7000/products/') // Make sure your backend supports this route
-      .then((res) => {
-        setProducts(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Error fetching products:', err);
-        setError('Failed to load products');
-        setLoading(false);
-      });
-  }, []);
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(`http://localhost:7000/products?search=${searchTerm}`);
+      setProducts(res.data);
+      setLoading('Loading')
+    } catch (error) {
+      console.error("Search fetch error:", error);
+      setError("Failed to load products");
+    }
+  };
 
-  const filteredProducts = products.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.subCategory.toLowerCase().includes(searchTerm.toLowerCase()) 
-    // toString(item.price) === toString(searchTerm) ||
-    // item.discount ===(searchTerm)
-  );
+  if (searchTerm !== "") {
+    fetchData();
+  } else {
+    // Optional: Load all products again when search is cleared
+    axios.get("http://localhost:7000/products")
+      .then((res) => setProducts(res.data))
+      .catch(() => setError("Failed to load products"));
+  }
+}, [searchTerm]);
+
+  
+
+  // const filteredProducts = products.filter((item) =>
+  //   item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //   item.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //   item.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //   item.subCategory.toLowerCase().includes(searchTerm.toLowerCase()) 
+  //   // toString(item.price) === toString(searchTerm) ||
+  //   // item.discount ===(searchTerm)
+  // );
 
   return (
     <div className="Home">
@@ -70,7 +81,7 @@ export default function Home({ searchTerm }) {
             {error}
           </Typography>
         ) : (
-          filteredProducts.map((item, index) => (
+          products.map((item, index) => (
             <ProductCard product={item} key={item._id || index} onClick={() => navigate(`/product/${item._id}`)} />
           ))
         )}

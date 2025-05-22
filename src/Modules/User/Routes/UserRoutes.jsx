@@ -12,16 +12,20 @@ import Cart from "../Pages/Cart";
 import Whishlist from "../Pages/Whishlist";
 import Offers from "../Pages/Offers";
 import NewArrivals from "../Pages/NewArrivals";
+import useDebounce from "../Component/useDebounce";
+
 
 export default function UserRoutes() {
+
   const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearch = useDebounce(searchTerm, 500);
 
   return (
     <>
       <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <SecNav />
       <Routes>
-        <Route path="/" element={<Home searchTerm={searchTerm} />} />
+        <Route path="/" element={<Home searchTerm={debouncedSearch} />} />
         <Route path="/home" element={<Home searchTerm={searchTerm} />} />
         <Route path="/product/:id" element={<ProductView />} />
         <Route path="/order" element={<Order />} />
