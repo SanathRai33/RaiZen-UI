@@ -1,6 +1,7 @@
 import React from 'react'
 import {  Routes, Route } from "react-router-dom";
 import Home from '../Pages/Home';
+import ProductForm from '../Pages/ProductForm';
 // import Login from '../Pages/Login';
 // import Logout from '../Pages/Logout';
 // import Register from '../Pages/Register';
@@ -18,6 +19,7 @@ export default function AdminRoutes() {
     <div>
        <Routes>
         <Route path="/home" element={<Home/>} />
+        <Route path="/product-form" element={<ProductForm />} />
         {/*<Route path="/logout" element={<Logout/>}/> */}
         <Route path="/" element={<home />} />
         {/* <Route path="/register" element={<Register />} />
