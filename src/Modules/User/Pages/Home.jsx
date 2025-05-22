@@ -5,7 +5,7 @@ import axios from 'axios';
 import { CircularProgress, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-export default function Home() {
+export default function Home({ searchTerm }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -34,6 +34,15 @@ export default function Home() {
       });
   }, []);
 
+  const filteredProducts = products.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.subCategory.toLowerCase().includes(searchTerm.toLowerCase()) 
+    // toString(item.price) === toString(searchTerm) ||
+    // item.discount ===(searchTerm)
+  );
+
   return (
     <div className="Home">
       {/* Category Section */}
@@ -61,7 +70,7 @@ export default function Home() {
             {error}
           </Typography>
         ) : (
-          products.map((item, index) => (
+          filteredProducts.map((item, index) => (
             <ProductCard product={item} key={item._id || index} onClick={() => navigate(`/product/${item._id}`)} />
           ))
         )}

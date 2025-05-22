@@ -1,9 +1,9 @@
 import React from 'react';
 import '../CSS/Navbar.css'
 import { useNavigate } from 'react-router-dom';
-import  { Search, Store, UserCircle2Icon } from 'lucide-react';
+import { Search, Store, UserCircle2Icon } from 'lucide-react';
 
-export default function Navbar() {
+export default function Navbar({ searchTerm, setSearchTerm}) {
 
     const navigate = useNavigate();
 
@@ -25,12 +25,13 @@ export default function Navbar() {
                 <h2 onClick={handleHome}>RaiZen</h2>
             </div>
             <div className="searchBar">
-                <Search size={18} className='search-icn'/>
-                <input type="text" placeholder='Search any products in RaiZen' />
+                <Search size={18} className='search-icn' />
+                <input type="text" placeholder='Search any products in RaiZen'
+                    value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
             </div>
             <div className="btns">
-                <button onClick={handleSeller}><Store/><p>Become a Seller</p></button>
-                <button onClick={handleRegister}><UserCircle2Icon/> <p>Register</p></button> 
+                <button onClick={handleSeller}><Store /><p>Become a Seller</p></button>
+                <button onClick={handleRegister}><UserCircle2Icon /> <p>Register</p></button>
             </div>
         </div>
     )
