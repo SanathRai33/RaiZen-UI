@@ -1,41 +1,54 @@
-import { Box, Card, CardContent, Button, Typography } from '@mui/material'
+import { Card, Box, Stack, Skeleton, IconButton } from "@mui/material";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-export default function ProductSkeleton() {
+const ProductSkeleton = () => {
   return (
-    <Card>
-    <CardContent>
-        <Typography variant="h5" gutterBottom noWrap fontWeight={800}>
-          name
-        </Typography>
+    <Card className="product-card">
+      {/* Left: Image Skeleton */}
+      <Skeleton variant="rectangular" width={240} height={240} sx={{ borderRadius: 2 }} />
 
-        <Typography variant="body2" color="text.secondary" noWrap fontWeight={600}>
-          description
-        </Typography>
+      {/* Right: Info */}
+      <Box flex={1} height='90%' maxWidth={500} padding={1}>
 
-        {/* Ratings */}
-        <Box mt={1} display='flex' alignItems='end'>
-          {/* <Rating value={ratings} precision={0.5} readOnly /> */}
-          <Typography variant="body2" color="text.secondary" ml={1}>
-            rating
-          </Typography>
-        </Box>
+        {/* Title & Ratings Skeleton */}
+        <Skeleton variant="text" width="60%" height={32} />
+        <Stack direction="row" alignItems="center" spacing={1} mt={0.5}>
+          <Skeleton variant="rectangular" width={40} height={24} />
+          <Skeleton variant="text" width="50%" />
+        </Stack>
 
-        {/* Price and Discount */}
+        {/* Description Skeleton */}
         <Box mt={1}>
-            <Box sx={{ display: 'flex', alignItems: 'end', gap: 1, mb: 1 }}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }} color="primary">
-                ₹discountedPrice
-              </Typography>
-              <Typography Typography variant="body2" sx={{ textDecoration: 'line-through', color: 'text.secondary', paddingBottom: 0.5 }}>
-                ₹price
-              </Typography>
-            </Box>
+          {[...Array(3)].map((_, idx) => (
+            <Skeleton key={idx} variant="text" width="80%" />
+          ))}
         </Box>
-      </CardContent>
 
-        <Button size="small" color="primary" variant="contained" fullWidth >
-          Add to Cart
-        </Button>
+        {/* Category */}
+        <Skeleton variant="text" width="40%" />
+
+        {/* Price */}
+        <Box display="flex" alignItems="center" gap={2} mt={1}>
+          <Skeleton variant="text" width={60} />
+          <Skeleton variant="text" width={40} />
+          <Skeleton variant="text" width={40} />
+        </Box>
+
+        {/* Favorite Button */}
+        <Box mt={1} display="flex" gap={2} alignItems="center">
+          <IconButton disabled>
+            <FavoriteBorderIcon />
+          </IconButton>
+        </Box>
+      </Box>
+
+      {/* Right Badge Image */}
+      <Box className="image">
+        <Skeleton variant="rectangular" width={100} height={100} />
+        <Skeleton variant="text" width={60} />
+      </Box>
     </Card>
-  )
-}
+  );
+};
+
+export default ProductSkeleton;

@@ -13,6 +13,9 @@
     gap: 40px;
     background-color: #232f3e;
     padding: 0px 20px;
+    position: sticky;
+    top: 60px;
+    z-index: 100;
 }
 
 .SecNav a{

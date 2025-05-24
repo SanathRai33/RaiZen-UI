@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Box, Grid, Typography, Button, Rating, Chip, IconButton, Container,} from "@mui/material";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { Box, Grid, Typography, Button, Rating, Chip, Container, } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CircularProgress from "@mui/material/CircularProgress";
 import CategoryProducts from "../Component/MoreProducts"; // Adjust the import path
+import { BoltOutlined } from "@mui/icons-material";
+import { Helmet } from "react-helmet";
 
 const ProductFullView = () => {
   const { id } = useParams(); // get product ID from URL
@@ -38,13 +39,14 @@ const ProductFullView = () => {
     fetchAllProducts();
   }, []);
 
-  if (!product) return 
-          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-            <CircularProgress />
-          </div>;
+  if (!product) return
+  <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+    <CircularProgress />
+  </div>;
 
   const {
     name,
+    brand,
     description,
     price,
     stock,
@@ -58,8 +60,12 @@ const ProductFullView = () => {
   const discountedPrice = price - (price * discount) / 100;
 
   return (
-    <Container sx={{ py: 9, backgroundColor: '#f5f5f5', minWidth: '100%', paddingLeft: '100px' }}>
-      <Grid container spacing={4} ml={16}>
+    <Container sx={{ minWidth: '100%', paddingLeft: '100px' }}>
+      <Helmet>
+        <title>{name} - {brand}</title>
+        <meta name="description" content='login' />
+      </Helmet>
+      <Grid container spacing={4} mx={8} pt={3}>
         <Grid item xs={12} md={6}>
           <Box component="img" src={images?.[0]} alt={name}
             sx={{
@@ -72,7 +78,7 @@ const ProductFullView = () => {
           />
         </Grid>
 
-        <Grid item xs={12} md={6} p={2} bgcolor='#f5f5f5' minWidth={600}>
+        <Grid item xs={12} md={6} p={2} minWidth={600}>
           {isFeatured && <Chip label="Featured" color="primary" sx={{ mb: 1 }} />}
           <Typography variant="h4" fontWeight={700} gutterBottom>{name}</Typography>
           <Typography variant="body1" mb={1}>{description}</Typography>
@@ -100,10 +106,12 @@ const ProductFullView = () => {
           </Typography>
 
           <Box display="flex" gap={2} mt={6}>
-            <Button variant="contained" color="warning" startIcon={<ShoppingCartIcon />} disabled={stock <= 0}>
+            <Button variant="contained" color="warning" startIcon={<ShoppingCartIcon />} disabled={stock <= 0} sx={{ width: '160px', height: '40px' }}>
               Add to Cart
             </Button>
-            <IconButton color="error"><FavoriteBorderIcon /></IconButton>
+            <Button variant="contained" color="warning" startIcon={<BoltOutlined />} disabled={stock <= 0} sx={{ width: '160px', height: '40px' }}>
+              Buy Now
+            </Button>
           </Box>
         </Grid>
       </Grid>

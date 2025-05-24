@@ -1,4 +1,3 @@
-import React from 'react'
 import '../CSS/Login.css'
 import { KeyRoundIcon, Mail, User2 } from 'lucide-react';
 import { Helmet } from 'react-helmet';
