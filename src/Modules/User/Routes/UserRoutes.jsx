@@ -13,6 +13,7 @@ import Whishlist from "../Pages/Whishlist";
 import Offers from "../Pages/Offers";
 import NewArrivals from "../Pages/NewArrivals";
 import useDebounce from "../Component/useDebounce";
+import SearchResults from "../Pages/SearchResult";
 
 
 export default function UserRoutes() {
@@ -35,6 +36,7 @@ export default function UserRoutes() {
         <Route path="/new-arrivals" element={<NewArrivals />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/search/:query" element={<SearchResults />} />
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
       <Footer />

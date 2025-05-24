@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { CircularProgress, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+// import ProductSkeleton from '../Component/ProductSkeleton';
 
 export default function Home({ searchTerm }) {
   const [products, setProducts] = useState([]);
@@ -22,28 +23,36 @@ export default function Home({ searchTerm }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const res = await axios.get(`http://localhost:7000/products?search=${searchTerm}`);
-      setProducts(res.data);
-      setLoading('Loading')
-    } catch (error) {
-      console.error("Search fetch error:", error);
-      setError("Failed to load products");
+    const fetchData = async () => {
+      try {
+        setLoading(true); // start loading
+        const res = await axios.get(`http://localhost:7000/products?search=${searchTerm}`);
+        setProducts(res.data);
+        setLoading(false); // stop loading
+      } catch (error) {
+        console.error("Search fetch error:", error);
+        setError("Failed to load products");
+        setLoading(false); // stop loading on error
+      }
+    };
+
+    if (searchTerm !== "") {
+      fetchData();
+    } else {
+      setLoading(true); // start loading
+      axios.get("http://localhost:7000/products")
+        .then((res) => {
+          setProducts(res.data);
+          setLoading(false);
+        })
+        .catch(() => {
+          setError("Failed to load products");
+          setLoading(false);
+        });
     }
-  };
+  }, [searchTerm]);
 
-  if (searchTerm !== "") {
-    fetchData();
-  } else {
-    // Optional: Load all products again when search is cleared
-    axios.get("http://localhost:7000/products")
-      .then((res) => setProducts(res.data))
-      .catch(() => setError("Failed to load products"));
-  }
-}, [searchTerm]);
 
-  
 
   // const filteredProducts = products.filter((item) =>
   //   item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -73,7 +82,7 @@ export default function Home({ searchTerm }) {
       {/* Product Section */}
       <div className='product-container'>
         {loading ? (
-          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+          <div>
             <CircularProgress />
           </div>
         ) : error ? (
