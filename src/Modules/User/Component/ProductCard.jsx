@@ -31,7 +31,7 @@ const ProductCard = ({ product, onClick }) => {
         sx={{ width: 240, height: 240, objectFit: "contain", borderRadius: 2, }} />
 
       {/* Right: Info */}
-      <Box flex={1} height='90%' maxWidth={500}>
+      <Box flex={1} height='90%' maxWidth={600}>
         {/* Title & Ratings */}
         <Typography variant="h5" fontWeight={700}>
           {name}

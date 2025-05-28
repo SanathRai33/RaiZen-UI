@@ -1,7 +1,6 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
 import '../CSS/SecNav.css';
-import Imgae from '../Images/image.png';
+import Imgae from '../Assets/Images/image.png';
 import  { ShoppingCart } from 'lucide-react';
 
 export default function SecNav() {
