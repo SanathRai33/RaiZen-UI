@@ -55,3 +55,28 @@ export default function Navbar({ searchTerm, setSearchTerm }) {
     </div>
   );
 }
+
+
+// import { useAuth } from '../context/AuthContext';
+
+// const Navbar = () => {
+//   const { user, logout } = useAuth();
+
+//   return (
+//     <>
+//       {user ? (
+//         <button onClick={logout}>Logout</button>
+//       ) : (
+//         <button onClick={() => navigate("/login")}>Login</button>
+//       )}
+//     </>
+//   );
+// };
+
+// const { login } = useAuth();
+
+// const handleLogin = async () => {
+//   const res = await axios.post('/api/users/login', { email, password });
+//   login(res.data); // sets token and user
+//   navigate("/home");
+// };
