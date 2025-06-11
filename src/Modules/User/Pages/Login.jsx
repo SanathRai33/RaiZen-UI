@@ -31,6 +31,7 @@ const handleSubmit = async () => {
 
     // ✅ Store token in localStorage
     localStorage.setItem("RaiZenUserToken", res.data.token);
+    localStorage.setItem("RaiZenUserData", JSON.stringify(res.data.user));
 
     setMessage('Login successful!');
     navigate('/'); // redirect to homepage or dashboard

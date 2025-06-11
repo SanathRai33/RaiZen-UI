@@ -1,49 +1,32 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
 
 const AuthContext = createContext();
 
+export const useAuth = () => useContext(AuthContext);
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(() => localStorage.getItem("authToken"));
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      if (!token) return setLoading(false);
-      try {
-        const res = await axios.get("/api/users/profile", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUser(res.data);
-      } catch (err) {
-        setUser(null);
-        setToken(null);
-        localStorage.removeItem("authToken");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUser();
-  }, [token]);
+    const userData = localStorage.getItem("RaiZenUserData");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
 
-  const login = (data) => {
-    setToken(data.token);
-    localStorage.setItem("authToken", data.token);
-    setUser(data.user);
+  const login = (userData) => {
+    localStorage.setItem("RaiZenUserData", JSON.stringify(userData));
+    setUser(userData);
   };
 
   const logout = () => {
+    localStorage.removeItem("RaiZenUserData");
     setUser(null);
-    setToken(null);
-    localStorage.removeItem("authToken");
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
-export const useAuth = () => useContext(AuthContext);

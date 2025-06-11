@@ -4,14 +4,17 @@ import axios from "axios";
 import { Box, Grid, Typography, Button, Rating, Chip, Container, } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CircularProgress from "@mui/material/CircularProgress";
-import CategoryProducts from "../Component/MoreProducts"; // Adjust the import path
+import CategoryProducts from "../Component/MoreProducts";
 import { BoltOutlined } from "@mui/icons-material";
+import { useCart } from "../../../Context/CartContext"; 
 import { Helmet } from "react-helmet";
 
 const ProductFullView = () => {
   const { id } = useParams(); // get product ID from URL
   const [product, setProduct] = useState(null);
   const [allProducts, setAllProducts] = useState([]);
+  const { addToCart } = useCart();
+
 
   // Fetch single product
   useEffect(() => {
@@ -39,10 +42,11 @@ const ProductFullView = () => {
     fetchAllProducts();
   }, []);
 
-  if (!product) return
+  if (!product) return (
   <div style={{ textAlign: 'center', marginTop: '2rem' }}>
     <CircularProgress />
-  </div>;
+  </div>
+);
 
   const {
     name,
@@ -68,13 +72,7 @@ const ProductFullView = () => {
       <Grid container spacing={4} mx={8} pt={3}>
         <Grid item xs={12} md={6}>
           <Box component="img" src={images?.[0]} alt={name}
-            sx={{
-              width: "100%",
-              minHeight: 500,
-              maxHeight: 500,
-              objectFit: "cover",
-              borderRadius: 2,
-            }}
+            sx={{ width: "100%", minHeight: 500, maxHeight: 500, objectFit: "cover", borderRadius: 2, }}
           />
         </Grid>
 
@@ -106,7 +104,7 @@ const ProductFullView = () => {
           </Typography>
 
           <Box display="flex" gap={2} mt={6}>
-            <Button variant="contained" color="warning" startIcon={<ShoppingCartIcon />} disabled={stock <= 0} sx={{ width: '160px', height: '40px' }}>
+            <Button variant="contained" color="warning" startIcon={<ShoppingCartIcon />} onClick={() => addToCart(product)} disabled={stock <= 0} sx={{ width: '160px', height: '40px' }}>
               Add to Cart
             </Button>
             <Button variant="contained" color="warning" startIcon={<BoltOutlined />} disabled={stock <= 0} sx={{ width: '160px', height: '40px' }}>
