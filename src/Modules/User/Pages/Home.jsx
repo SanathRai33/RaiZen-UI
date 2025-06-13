@@ -55,16 +55,6 @@ export default function Home({ searchTerm }) {
       
       <CategorySection />
 
-      {/* Hero Banner (optional) */}
-
-
-      {/* <ProductSection title="🆕 New Arrivals" endpoint="http://localhost:7000/products/filter/new-arrivals/products" /> */}
-
-      {/* <ProductSection title="🎁 Best Offers" endpoint="http://localhost:7000/products/filter/offer/products" /> */}
-
-      {/* <ProductSection title="✨ Featured Products" endpoint="http://localhost:7000/products?isFeatured=true" /> */}
-
-      {/* Product Section */}
       <div className='product-container'>
         {loading ? (
           <div>

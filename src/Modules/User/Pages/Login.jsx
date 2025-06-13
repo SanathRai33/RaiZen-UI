@@ -4,11 +4,11 @@ import { Helmet } from 'react-helmet';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-// import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../../Context/AuthContext';
 
 export default function Login() {
   const navigate = useNavigate();
-//   const { login } = useAuth();
+  const { login } = useAuth(); 
 
   const [formData, setFormData] = useState({
     email: '',
@@ -23,23 +23,35 @@ export default function Login() {
 
 
 
-const handleSubmit = async () => {
-  try {
-    const res = await axios.post('http://localhost:7000/api/users/login', formData);
-    //   const res = await axios.post('http://localhost:7000/api/users/login', formData);
-    //   login(res.data); // update global auth context
+// const handleSubmit = async () => {
+//   try {
+//     const res = await axios.post('http://localhost:7000/api/users/login', formData);
 
-    // ✅ Store token in localStorage
-    localStorage.setItem("RaiZenUserToken", res.data.token);
-    localStorage.setItem("RaiZenUserData", JSON.stringify(res.data.user));
+//     // ✅ Store token in localStorage
+//     localStorage.setItem("RaiZenUserToken", res.data.token);
+//     localStorage.setItem("RaiZenUserData", JSON.stringify(res.data.user));
 
-    setMessage('Login successful!');
-    navigate('/'); // redirect to homepage or dashboard
-  } catch (error) {
-    const msg = error.response?.data?.message || 'Login failed!';
-    setMessage(msg);
-  }
-};
+//     setMessage('Login successful!');
+//     navigate('/'); // redirect to homepage or dashboard
+//   } catch (error) {
+//     const msg = error.response?.data?.message || 'Login failed!';
+//     setMessage(msg);
+//   }
+// };
+
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.post('http://localhost:7000/api/users/login', formData);
+      const { token, user } = res.data;
+
+      login(user, token); // ✅ context login
+      setMessage('Login successful!');
+      navigate('/');
+    } catch (error) {
+      const msg = error.response?.data?.message || 'Login failed!';
+      setMessage(msg);
+    }
+  };
 
 
 

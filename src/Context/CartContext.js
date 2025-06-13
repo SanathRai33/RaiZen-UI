@@ -20,13 +20,7 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     const fetchCart = async () => {
       const userId = getUserId();
-      if (userId) {
-        try {
-          const res = await axios.get(`/api/users/${userId}/cart`);
-          setCartItems(res.data.cart);
-        } catch (err) {
-          console.error("Failed to fetch cart from server", err);
-        }
+      if (userId) { try {   const res = await axios.get(`/api/users/${userId}/cart`);   setCartItems(res.data.cart); } catch (err) {   console.error("Failed to fetch cart from server", err); }
       }
     };
     fetchCart();
@@ -44,11 +38,7 @@ export const CartProvider = ({ children }) => {
     const userId = getUserId();
     if (!userId) return;
     try {
-      await axios.put(`http://localhost:7000/api/users/${userId}/cart`, {
-        cartItems: newCart.map((item) => ({
-          productId: item.productId || item._id,
-          quantity: item.quantity,
-        })),
+      await axios.put(`http://localhost:7000/api/users/${userId}/cart`, { cartItems: newCart.map((item) => ({   productId: item.productId || item._id,   quantity: item.quantity, })),
       });
       setCartItems(newCart);
     } catch (err) {
@@ -62,19 +52,10 @@ export const CartProvider = ({ children }) => {
     );
     let updatedCart;
     if (existing) {
-      updatedCart = cartItems.map((item) =>
-        item.productId === product._id || item._id === product._id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
+      updatedCart = cartItems.map((item) => item.productId === product._id || item._id === product._id   ? { ...item, quantity: item.quantity + 1 }   : item
       );
     } else {
-      updatedCart = [
-        ...cartItems,
-        {
-          ...product,
-          productId: product._id,
-          quantity: 1,
-        },
+      updatedCart = [ ...cartItems, {   ...product,   productId: product._id,   quantity: 1, },
       ];
     }
     syncWithBackend(updatedCart);
@@ -82,9 +63,7 @@ export const CartProvider = ({ children }) => {
 
   const updateQuantity = (productId, quantity) => {
     const updatedCart = cartItems.map((item) =>
-      item.productId === productId || item._id === productId
-        ? { ...item, quantity }
-        : item
+      item.productId === productId || item._id === productId ? { ...item, quantity } : item
     );
     syncWithBackend(updatedCart);
   };
@@ -97,14 +76,7 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider
-      value={{
-        cartItems,
-        addToCart,
-        updateQuantity,
-        removeFromCart,
-      }}
-    >
+    <CartContext.Provider value={{ cartItems, addToCart, updateQuantity, removeFromCart,}}>
       {children}
     </CartContext.Provider>
   );

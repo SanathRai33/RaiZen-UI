@@ -10,7 +10,7 @@ import { useCart } from "../../../Context/CartContext";
 import { Helmet } from "react-helmet";
 
 const ProductFullView = () => {
-  const { id } = useParams(); // get product ID from URL
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [allProducts, setAllProducts] = useState([]);
   const { addToCart } = useCart();

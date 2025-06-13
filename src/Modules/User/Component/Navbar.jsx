@@ -2,21 +2,11 @@
 import '../CSS/Navbar.css';
 import { useNavigate } from 'react-router-dom';
 import { Search, Store, UserCircle2Icon } from 'lucide-react';
+import { useAuth } from '../../../Context/AuthContext'
 
 export default function Navbar({ searchTerm, setSearchTerm }) {
   const navigate = useNavigate();
-
-  const handleHome = () => {
-    navigate('/');
-  };
-
-  const handleRegister = () => {
-    navigate('/register');
-  };
-
-  const handleSeller = () => {
-    navigate('/become-a-seller');
-  };
+  const { user, logout } = useAuth();
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && searchTerm.trim()) {
@@ -28,29 +18,32 @@ export default function Navbar({ searchTerm, setSearchTerm }) {
   return (
     <div className="Navbar">
       <div className="brand">
-        <h2 onClick={handleHome}>RaiZen</h2>
+        <h2 onClick={() => navigate('/')}>RaiZen</h2>
       </div>
 
       <div className="searchBar">
         <Search size={18} className="search-icn" />
-        <input
-          type="text"
-          placeholder="Search any products in RaiZen"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyDown={handleKeyDown}
+        <input type="text" placeholder="Search any products in RaiZen" value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)} onKeyDown={handleKeyDown}
         />
       </div>
 
       <div className="btns">
-        <button onClick={handleSeller}>
+        <button onClick={() => navigate('/become-a-seller')}>
           <Store />
           <p>Become a Seller</p>
         </button>
-        <button onClick={handleRegister}>
-          <UserCircle2Icon />
-          <p>Register</p>
-        </button>
+        {user ? (
+          <button onClick={logout}>
+            <UserCircle2Icon />
+            <p>Logout</p>
+          </button>
+        ) : (
+          <button onClick={() => navigate("/login")}>
+            <UserCircle2Icon />
+            <p>Login</p>
+          </button>
+        )}
       </div>
     </div>
   );
@@ -64,11 +57,11 @@ export default function Navbar({ searchTerm, setSearchTerm }) {
 
 //   return (
 //     <>
-//       {user ? (
-//         <button onClick={logout}>Logout</button>
-//       ) : (
-//         <button onClick={() => navigate("/login")}>Login</button>
-//       )}
+// {user ? (
+//   <button onClick={logout}>Logout</button>
+// ) : (
+//   <button onClick={() => navigate("/login")}>Login</button>
+// )}
 //     </>
 //   );
 // };

@@ -1,4 +1,5 @@
-.Navbar *, .Navbar {
+.Navbar *,
+.Navbar {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -9,7 +10,6 @@
   align-items: center;
   justify-content: start;
   justify-content: space-between;
-  flex-wrap: wrap;
   width: 100%;
   height: 60px;
   background-color: #ffffff;
@@ -19,14 +19,16 @@
   position: sticky;
   top: 0;
   z-index: 100;
+  flex-shrink: 1;
 }
 
-.Navbar .brand{
+.Navbar .brand {
   margin-right: 25px;
+  flex-shrink: 1;
 }
 
-.Navbar .brand h2{
-  font-family: 'Mulish', sans-serif;
+.Navbar .brand h2 {
+  font-family: "Mulish", sans-serif;
   font-size: 1.8rem;
   font-weight: 900;
   cursor: pointer;
@@ -37,49 +39,57 @@
   color: #ff9e0d;
 }
 
-.Navbar .searchBar{
+.Navbar .searchBar {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: start;
-  width: 900px;
+  width: 60%;
   height: 45px;
   border-radius: 5px;
   padding: 0px 15px;
   margin: 0 25px;
+  flex-shrink: 1;
 }
 
-.Navbar .searchBar .search-icn{
+.Navbar .searchBar .search-icn {
   position: absolute;
   left: 20px;
   color: rgb(89, 88, 88);
 }
 
-.Navbar .searchBar input{
-  width: 70%;
+.Navbar .searchBar input {
+  width: 80%;
   height: 80%;
   border: none;
   border-radius: 8px;
   background-color: #f4b557c7;
   color: #000000;
   padding-left: 30px;
-  font-size: .8rem;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s ease-in-out;
+  &:focus {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+  }
 }
 
-.Navbar .searchBar input::placeholder{
+.Navbar .searchBar input::placeholder {
   color: rgb(89, 88, 88);
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
 
-.Navbar .btns{
+.Navbar .btns {
   display: flex;
   align-items: center;
   justify-content: end;
   gap: 20px;
   height: 40px;
+  flex-shrink: 1;
 }
 
-.Navbar button{
+.Navbar button {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -87,26 +97,26 @@
   padding: 0 10px;
   border: none;
   border-radius: 8px;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: 1rem;
   cursor: pointer;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.Navbar .btns button:nth-child(1){
+.Navbar .btns button:nth-child(1) {
   background-color: #f6a223c8;
   color: #ffffff;
-  &:hover{
+  &:hover {
     background-color: #ff9900;
-    color: #000000;
   }
 }
 
-.Navbar .btns button:nth-child(2){
-  background-color: #000;
-  color: #fff;
-  &:hover{
-    color: #ff9900;
+.Navbar .btns button:nth-child(2) {
+  background-color: #0d6efd;
+  color: #ffffff;
+  &:hover {
+    background-color: #0b5ed7;
   }
 }
 
@@ -117,59 +127,86 @@
     height: auto;
     gap: 10px;
     justify-content: start;
-    padding: 5px 10px
+    padding: 5px 10px;
   }
 
-.Navbar .brand{
-  margin-right: 0px;
-}
+  .Navbar .brand {
+    margin-right: 0px;
+  }
 
-.Navbar .searchBar{
-  justify-content: start;
-  width: 500px;
-  margin: 0 50px 0 0;
-}
+  .Navbar .searchBar {
+    justify-content: start;
+    width: 500px;
+    margin: 0 50px 0 0;
+  }
 
-.Navbar .searchBar input{
-  width: 100%;
-}
+  .Navbar .searchBar input {
+    width: 100%;
+    &:focus {
+      width: 100%;
+    }
+  }
 
   .Navbar .btns {
     margin: 0;
     justify-self: end;
     height: 38px;
+  }
+  
+  .Navbar .btns button:first-child p {
+    display: none;
   }
 }
 
 @media (max-width: 768px) {
   .Navbar {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     flex-direction: row;
-    height: auto;
-    gap: 10px;
-    justify-content: start;
-    padding: 5px 10px;
+    justify-content: space-between;
   }
 
-.Navbar .brand{
-  margin-right: 0px;
-}
+  .Navbar .brand {
+    margin-right: 0px;
+    order: 1;
+  }
 
-.Navbar .searchBar{
-  justify-content: start;
-  width: 500px;
-  margin: 0 50px 0 0;
-  min-width: 250px;
-}
+  .Navbar .brand h2 {
+    font-size: 1.6rem;
+  }
 
-.Navbar .searchBar input{
-  width: 100%;
-}
+  .Navbar .searchBar {
+    justify-content: start;
+    width: 100%;
+    margin: 0;
+    min-width: 250px;
+    order: 3;
+  }
+
+  .Navbar .searchBar input {
+    width: 90%;
+    &:focus {
+      width: 100%;
+    }
+  }
 
   .Navbar .btns {
     margin: 0;
     justify-self: end;
     height: 38px;
+    order: 2;
   }
 
+  .Navbar .btns button {
+    font-size: 0.9rem;
+    font-weight: 400;
+    gap: 2px;
+    height: 90%;
+    padding: 0 6px;
+    border: none;
+    border-radius: 8px;
+  }
+
+  .Navbar .btns button:first-child p {
+    display: none;
+  }
 }
