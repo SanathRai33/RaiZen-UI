@@ -21,8 +21,6 @@ export default function Login() {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-
-
 // const handleSubmit = async () => {
 //   try {
 //     const res = await axios.post('http://localhost:7000/api/users/login', formData);
@@ -52,8 +50,6 @@ export default function Login() {
       setMessage(msg);
     }
   };
-
-
 
 
   return (

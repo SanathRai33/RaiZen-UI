@@ -16,7 +16,6 @@ const ProductFullView = () => {
   const { addToCart } = useCart();
 
 
-  // Fetch single product
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -29,7 +28,7 @@ const ProductFullView = () => {
     fetchProduct();
   }, [id]);
 
-  // Fetch all products for related display
+  
   useEffect(() => {
     const fetchAllProducts = async () => {
       try {
@@ -48,18 +47,7 @@ const ProductFullView = () => {
   </div>
 );
 
-  const {
-    name,
-    brand,
-    description,
-    price,
-    stock,
-    category,
-    images,
-    ratings,
-    discount,
-    isFeatured,
-  } = product;
+  const { name, brand, description, price, stock, category, images, ratings, discount, isFeatured, } = product;
 
   const discountedPrice = price - (price * discount) / 100;
 

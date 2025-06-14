@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, Card, CardMedia, CardContent, Skeleton, IconButton, Button, Grid, Box } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { useCart } from '../../../Context/CartContext';
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem('RaiZenUserToken'); // or from your auth context
+  const { addToCart } = useCart();
+  const [product, setProduct] = useState(null)
+  const token = localStorage.getItem('RaiZenUserToken');
 
   // Fetch wishlist from backend
   useEffect(() => {
@@ -28,7 +31,7 @@ const Wishlist = () => {
   const handleRemove = async (productId) => {
     console.log("Removing", productId);
     try {
-       await axios.put(`http://localhost:7000/api/users/wishlist/${productId}`, {}, {
+      await axios.put(`http://localhost:7000/api/users/wishlist/${productId}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setWishlist(prev => prev.filter(item => item._id !== productId));
@@ -37,11 +40,16 @@ const Wishlist = () => {
     }
   };
 
-
-  const handleMoveToCart = (item) => {
-    // Your cart logic here
-    console.log('Moved to cart:', item.name);
-    handleRemove(item._id);
+  const handleMoveToCart = async (item) => {
+    console.log('k')
+      try {
+        const res = await axios.get(`http://localhost:7000/products/${item._id}`);
+        setProduct(res.data);
+      } catch (err) {
+        console.error("Failed to fetch product:", err);
+      }
+    addToCart(product)
+    handleRemove(item._id)
   };
 
 
