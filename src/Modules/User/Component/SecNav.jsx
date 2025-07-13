@@ -8,7 +8,6 @@ export default function SecNav() {
     <div className='SecNav'>
       <NavLink to="/order">My Orders</NavLink>
       <NavLink to="/offers">Offer</NavLink>
-      <NavLink to="/new-arrivals">New Arrivals</NavLink>
       <NavLink to="/whishlist">Whishlist</NavLink>
       <NavLink to="/cart"> <ShoppingCart size={20}/> <p>Cart</p></NavLink>
       <div className="profile">

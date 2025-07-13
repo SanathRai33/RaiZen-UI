@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import CategorySection from '../Component/CategorySection';
 import HeroBanner from '../Component/BannerSection';
 import TrustBadges from '../Component/TrustBadges';
+import NewArrivals from './NewArrivals';
 
 export default function Home({ searchTerm }) {
   const [products, setProducts] = useState([]);
@@ -55,6 +56,8 @@ export default function Home({ searchTerm }) {
       <HeroBanner />
       
       <CategorySection />
+
+      <NewArrivals />
 
       <TrustBadges/>
 

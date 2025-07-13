@@ -1,90 +1,55 @@
 import { useEffect, useState } from "react";
+import '../CSS/Home.css';
 import { Helmet } from "react-helmet";
-import {
-    Container,
-    Grid,
-    Card,
-    CardMedia,
-    CardContent,
-    Typography,
-    CardActions,
-    Button,
-} from "@mui/material";
-
-// Dummy data — replace with API call or props
-const allProducts = [
-    {
-        name: "Nike Air Max",
-        description: "Latest running shoes",
-        price: 7999,
-        images: [
-            "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600"
-        ],
-        createdAt: "2025-05-15T10:00:00Z",
-    },
-    {
-        name: "Adidas Hoodie",
-        description: "Warm and cozy",
-        price: 2999,
-        images: [
-            "https://images.unsplash.com/photo-1585386959984-a4155223f9ff?w=600"
-        ],
-        createdAt: "2025-05-10T14:30:00Z",
-    },
-    {
-        name: "New Smartwatch",
-        description: "Tracks fitness and health",
-        price: 10999,
-        images: [
-            "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c21hcnQlMjB3YXRjaHxlbnwwfHwwfHx8MA%3D%3D"
-        ],
-        createdAt: "2025-05-14T12:00:00Z",
-    }
-];
+import { Container, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, } from "@mui/material";
+import axios from "axios";
 
 const NewArrivals = () => {
     const [newProducts, setNewProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const now = new Date();
-        const threeDaysAgo = new Date(now);
-        threeDaysAgo.setDate(now.getDate() - 3);
-
-        const filtered = allProducts.filter(product =>
-            new Date(product.createdAt) >= threeDaysAgo
-        );
-
-        setNewProducts(filtered);
+        console.log("Fetching new arrivals...");
+        const fetchNewArrivals = async () => {
+            console.log("Fetching new arrivals from API...");
+            try {
+                const response = await axios.get(`http://localhost:7000/products/filter/new-arrivals`);
+                setNewProducts(response.data);
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                setError("Failed to fetch New Arrivals.");
+            }
+        }
+        fetchNewArrivals();
     }, []);
 
     return (
-        <Container sx={{ mt: 4, minHeight: '81vh' }}>
+        <Container sx={{ mt: 4, maxHeight: '600px', backgroundColor: '#f5f5f5', minWidth: "100%" }} className="New">
             <Helmet>
                 <title>New Arrivals</title>
                 <meta name="description" content='orders' />
             </Helmet>
-            <Typography variant="h4" gutterBottom fontWeight={700}>
-                New Arrivals
+            <Typography variant="h4" gutterBottom fontWeight={800} px={4}>
+                New Arrivals 🎉🎊
             </Typography>
             <Grid container spacing={4}>
                 {newProducts.length === 0 ? (
                     <Typography variant="h6">No new arrivals in the last 3 days.</Typography>
                 ) : (
-                    newProducts.map((product, index) => (
-                        <Grid item xs={12} sm={6} md={4} key={index}>
-                            <Card>
-                                <CardMedia
-                                    component="img"
-                                    height="200"
-                                    image={product.images[0]}
-                                    alt={product.name}
-                                />
+                    <Grid item xs={12} sm={6} md={4} px={6}
+                        sx={{ display: 'flex', alignItems: 'center', flexWrap: "nowrap", gap: 5, minWidth: "100%", overflowX: "scroll", scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none', }, }}
+                    >
+                        {newProducts.map((product, index) => (
+                            <Card key={index} sx={{ minWidth: 350, borderRadius: '16px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                                <CardMedia component="img" height="200" image={product.images[0]} alt={product.name} sx={{ objectFit: "contain" }} />
                                 <CardContent>
                                     <Typography variant="h6">{product.name}</Typography>
-                                    <Typography variant="body2" color="text.secondary">
+                                    <Typography variant="body2" color="text.secondary" sx={{ borderRadius: '8px' }}>
                                         {product.description}
                                     </Typography>
-                                    <Typography variant="h6" sx={{ mt: 1 }}>
+                                    <Typography variant="h6">
                                         ₹{product.price}
                                     </Typography>
                                 </CardContent>
@@ -93,9 +58,8 @@ const NewArrivals = () => {
                                         View Product
                                     </Button>
                                 </CardActions>
-                            </Card>
-                        </Grid>
-                    ))
+                            </Card>))}
+                    </Grid>
                 )}
             </Grid>
         </Container>
