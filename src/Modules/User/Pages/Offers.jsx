@@ -34,12 +34,12 @@ const Offer = () => {
       </Typography>
       <Grid container spacing={3} >
         {loading ?
-          (<Box>
+          (<Box sx={{ minWidth: "100%", minHeight:"100px", display: 'flex', alignItems: 'center', justifyContent: "center"}}>
             <CircularProgress />
           </Box>) :
 
           error ?
-            (<Box>
+            (<Box sx={{ minWidth: "100%", minHeight:"100px", display: 'flex', alignItems: 'center', justifyContent: "center"}}>
               <Typography variant="body1" sx={{ m: 2 }}>
                 Failed to get Offers.
               </Typography>
@@ -66,9 +66,11 @@ const Offer = () => {
                 ))}
               </Grid>
             ) : (
+              <Box sx={{ minWidth: "100%", minHeight:"100px", display: 'flex', alignItems: 'center', justifyContent: "center"}}>
               <Typography variant="body1" sx={{ m: 2 }}>
                 No active offers available.
               </Typography>
+              </Box>
             ))}
       </Grid>
     </Container>

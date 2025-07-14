@@ -33,17 +33,17 @@ const NewArrivals = () => {
             <Grid container spacing={4}>
 
                 {loading ?
-                    (<Box> <CircularProgress /> </Box>) :
+                    (<Box sx={{ minWidth: "100%", minHeight:"100px", display: 'flex', alignItems: 'center', justifyContent: "center"}}> <CircularProgress /> </Box>) :
 
                     error ?
-                        (<Box> <Typography variant="body1" sx={{ m: 2 }}> Failed to get Offers. </Typography> </Box>) :
+                        (<Box sx={{ minWidth: "100%", minHeight:"100px", display: 'flex', alignItems: 'center', justifyContent: "center", backgroundColor: 'yellow'}}> <Typography variant="body1" sx={{ m: 2 }}> Failed to get New Arrivals. </Typography> </Box>) :
 
                         newProducts.length === 0 ? (
-                            <Typography variant="h6">No new arrivals in the last 3 days.</Typography>
+                            <Box sx={{ minWidth: "100%", minHeight:"100px", display: 'flex', alignItems: 'center', justifyContent: "center"}}><Typography variant="h6">No new arrivals in the last 7 days.</Typography></Box>
                         ) : (
                             <Grid item xs={12} sm={6} md={4} px={6} sx={{ display: 'flex', alignItems: 'center', flexWrap: "nowrap", gap: 5, minWidth: "100%", overflowX: "scroll", scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none', }, }}>
                                 {newProducts.map((product) => (
-                                    <Card key={product.id} sx={{ minWidth: 350, borderRadius: '16px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                                    <Card key={product.id} sx={{ minWidth: 350, maxWidth: 350, borderRadius: '16px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
                                         <CardMedia component="img" height="200" image={product.images[0]} alt={product.name} sx={{ objectFit: "contain" }} />
                                         <CardContent>
                                             <Typography variant="h6">{product.name}</Typography>
