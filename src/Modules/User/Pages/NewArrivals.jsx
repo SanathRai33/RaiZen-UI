@@ -13,9 +13,7 @@ const NewArrivals = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("Fetching new arrivals...");
         const fetchNewArrivals = async () => {
-            console.log("Fetching new arrivals from API...");
             try {
                 const response = await axios.get(`http://localhost:7000/products/filter/new-arrivals`);
                 setNewProducts(response.data);
