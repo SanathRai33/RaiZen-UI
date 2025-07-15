@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CircularProgress } from '@mui/material';
 import '../CSS/Home.css';
 import { Container, Typography, Grid, Card, CardMedia, CardContent, Chip, Box, Button, } from "@mui/material";
@@ -10,6 +11,8 @@ const Offer = () => {
   const [activeOffers, setActiveOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("Fetching new arrivals...");
@@ -60,7 +63,7 @@ const Offer = () => {
                         <Chip label={`${product.discount}% OFF`} color="primary" />
                         {/* <Timer endTime={product.offerExpiresAt} /> */}
                       </Box>
-                      <Button variant="contained" color="secondary" fullWidth sx={{ mt: 2 }} > Add to Cart </Button>
+                      <Button variant="contained" color="secondary" fullWidth sx={{ mt: 2 }} onClick={() => navigate(`/product/${product._id}`)} > Add to Cart </Button>
                     </CardContent>
                   </Card>
                 ))}

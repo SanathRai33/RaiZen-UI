@@ -16,9 +16,9 @@ const CategoryProducts = ({ products, currentProductId, category }) => {
   return (
     <Box mt={4} py={4} className='MoreProduct'>
       <Typography variant="h5" fontWeight={700}>Other {category}</Typography>
-      <Box display="flex" flexWrap="wrap" gap={2} mt={2}>
+      <Box display="flex" flexWrap="wrap" gap={2} mt={2} >
         {relatedProducts.map(item => (
-          <Box key={item._id} onClick={() => navigate(`/product/${item._id}`)} className="more-product-card" >
+          <Box key={item._id} width="180px" onClick={() => navigate(`/product/${item._id}`)} className="more-product-card" >
             <Box component="img" src={item.images?.[0]} alt={item.name} sx={{ width: 100, height: 100, objectFit: "cover", borderRadius: 2 }} />
             <Typography variant="body2" mt={1} textAlign="center" sx={{ width: "fit-content"}}>{item.name}</Typography>
           </Box>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CircularProgress,  } from '@mui/material';
 import '../CSS/Home.css';
 import { Container, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Box } from "@mui/material";
@@ -8,6 +9,8 @@ const NewArrivals = () => {
     const [newProducts, setNewProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log("Fetching new arrivals...");
@@ -55,7 +58,7 @@ const NewArrivals = () => {
                                             </Typography>
                                         </CardContent>
                                         <CardActions>
-                                            <Button variant="contained" color="primary" fullWidth>
+                                            <Button variant="contained" color="primary" fullWidth onClick={() => navigate(`/product/${product._id}`)} >
                                                 View Product
                                             </Button>
                                         </CardActions>

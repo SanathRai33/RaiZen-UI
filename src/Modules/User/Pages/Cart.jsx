@@ -107,10 +107,7 @@ const updateQuantity = async (productId, newQuantity) => {
             cartItems.map((item) => (
               <Card key={item.productId._id} elevation={3} sx={{ display: "flex", mb: 2, width: '600px' }}>
                 <CardMedia
-                  component="img"
-                  image={item.productId.images?.[0] || "/placeholder.jpg"}
-                  alt={item.productId.name}
-                  sx={{ width: 140, height: 140, objectFit: "cover" }}
+                  component="img" image={item.productId.images?.[0] || "/placeholder.jpg"} alt={item.productId.name} sx={{ width: 140, height: 140, objectFit: "contain", padding: "10px", }}
                 />
                 <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
                   <CardContent>

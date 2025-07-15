@@ -57,28 +57,13 @@ const ProductCard = ({ product, onClick }) => {
   return (
     <Card className="product-card" onClick={onClick}>
       {/* Image */}
-      <CardMedia
-        component="img"
-        image={images[0]}
-        alt={name}
-        sx={{ width: 240, height: 240, objectFit: "contain", borderRadius: 2 }}
-      />
+      <CardMedia component="img" image={images[0]} alt={name} sx={{ width: 240, height: 240, objectFit: "contain", borderRadius: 2 }}/>
 
       {/* Info */}
       <Box flex={1} maxWidth={600}>
         <Typography variant="h5" fontWeight={700}>{name}</Typography>
         <Stack direction="row" alignItems="center" spacing={1} mt={0.5}>
-          <Box
-            display="inline-flex"
-            alignItems="center"
-            px={1}
-            py={0.1}
-            borderRadius={4}
-            bgcolor="success.main"
-            color="white"
-            fontWeight={600}
-            fontSize={12}
-          >
+          <Box display="inline-flex" alignItems="center" px={1} py={0.1} borderRadius={4} bgcolor="success.main" color="white" fontWeight={600} fontSize={12}>
             <StarIcon width={15} height={20} /> {ratings.toFixed(1)}
           </Box>
           <Typography variant="body2" color="text.secondary">
