@@ -13,6 +13,7 @@ import Whishlist from "../Pages/Whishlist";
 import Offers from "../Pages/Offers";
 import NewArrivals from "../Pages/NewArrivals";
 import SearchResults from "../Pages/SearchResult";
+import Payment from "../Pages/Payment";
 
 export default function UserRoutes() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,6 +38,7 @@ export default function UserRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/search/:query" element={<SearchResults />} />
+        <Route path="/payment" element={<Payment/>}/>
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
 

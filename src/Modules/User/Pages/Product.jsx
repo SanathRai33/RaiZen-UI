@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Box, Grid, Typography, Button, Rating, Chip, Container, } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CircularProgress from "@mui/material/CircularProgress";
 import CategoryProducts from "../Component/MoreProducts";
 import { BoltOutlined } from "@mui/icons-material";
-import { useCart } from "../../../Context/CartContext"; 
+import { useCart } from "../../../Context/CartContext";
 import { Helmet } from "react-helmet";
 
 const ProductFullView = () => {
@@ -14,6 +14,7 @@ const ProductFullView = () => {
   const [product, setProduct] = useState(null);
   const [allProducts, setAllProducts] = useState([]);
   const { addToCart } = useCart();
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const ProductFullView = () => {
     fetchProduct();
   }, [id]);
 
-  
+
   useEffect(() => {
     const fetchAllProducts = async () => {
       try {
@@ -42,10 +43,14 @@ const ProductFullView = () => {
   }, []);
 
   if (!product) return (
-  <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-    <CircularProgress />
-  </div>
-);
+    <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+      <CircularProgress />
+    </div>
+  );
+
+  const handlePayment = () => {
+    navigate('/payment')
+  };
 
   const { name, brand, description, price, stock, category, images, ratings, discount, isFeatured, } = product;
 
@@ -95,7 +100,7 @@ const ProductFullView = () => {
             <Button variant="contained" color="warning" startIcon={<ShoppingCartIcon />} onClick={() => addToCart(product)} disabled={stock <= 0} sx={{ width: '160px', height: '40px' }}>
               Add to Cart
             </Button>
-            <Button variant="contained" color="warning" startIcon={<BoltOutlined />} disabled={stock <= 0} sx={{ width: '160px', height: '40px' }}>
+            <Button variant="contained" color="warning" startIcon={<BoltOutlined />} onClick={handlePayment} disabled={stock <= 0} sx={{ width: '160px', height: '40px' }}>
               Buy Now
             </Button>
           </Box>
