@@ -12,14 +12,16 @@ const Wishlist = () => {
   const [product, setProduct] = useState(null)
   const token = localStorage.getItem('RaiZenUserToken');
 
-  // Fetch wishlist from backend
+  
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
+      console.log("Token",token)
         const res = await axios.get('http://localhost:7000/api/users/wishlist', {
           headers: { Authorization: `Bearer ${token}` }
         });
-        setWishlist(res.data);
+        console.log("Data",res);
+        setWishlist(res.data)
         setLoading(false);
       } catch (err) {
         console.error('Error fetching wishlist:', err.response?.data || err.message);
@@ -41,7 +43,6 @@ const Wishlist = () => {
   };
 
   const handleMoveToCart = async (item) => {
-    console.log('k')
       try {
         const res = await axios.get(`http://localhost:7000/products/${item._id}`);
         setProduct(res.data);
@@ -51,6 +52,10 @@ const Wishlist = () => {
     addToCart(product)
     handleRemove(item._id)
   };
+
+  if(loading){
+    console.log("loading")
+  }
 
 
   return (

@@ -1,24 +1,15 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import axios from "axios";
-import {
-  Box,
-  Typography,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  Divider,
-  Button,
-  Skeleton,
-  IconButton,
-  Paper,
-} from "@mui/material";
+import { Box, Typography, Card, CardContent, CardMedia, Grid, Divider, Button, Skeleton, IconButton, Paper, } from "@mui/material";
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const getUserId = () => {
     const userData = localStorage.getItem("RaiZenUserData");
@@ -43,44 +34,58 @@ const Cart = () => {
     fetchCart();
   }, []);
 
-const updateQuantity = async (productId, newQuantity) => {
-  newQuantity = Math.max(1, newQuantity);
+  const updateQuantity = async (productId, newQuantity) => {
+    newQuantity = Math.max(1, newQuantity);
 
-  const updatedCart = cartItems.map((item) =>
-    item.productId._id === productId
-      ? { ...item, quantity: newQuantity }
-      : item
-  );
-  setCartItems(updatedCart);
+    const updatedCart = cartItems.map((item) =>
+      item.productId._id === productId
+        ? { ...item, quantity: newQuantity }
+        : item
+    );
+    setCartItems(updatedCart);
 
-  const userId = getUserId();
-  await axios.put(`http://localhost:7000/api/users/${userId}/cart`, {
-    cartItems: updatedCart.map((item) => ({
-      productId: item.productId._id,
-      quantity: item.quantity,
-    })),
-  });
-};
+    const userId = getUserId();
+    await axios.put(`http://localhost:7000/api/users/${userId}/cart`, {
+      cartItems: updatedCart.map((item) => ({
+        productId: item.productId._id,
+        quantity: item.quantity,
+      })),
+    });
+  };
 
 
   const removeItem = async (productId) => {
-  const updatedCart = cartItems.filter(item => item.productId._id !== productId);
-  setCartItems(updatedCart);
-  const userId = getUserId();
-  await axios.put(`http://localhost:7000/api/users/${userId}/cart`, {
-    cartItems: updatedCart.map((item) => ({
-      productId: item.productId._id,
-      quantity: item.quantity,
-    })),
-  });
-};
+    const updatedCart = cartItems.filter(item => item.productId._id !== productId);
+    setCartItems(updatedCart);
+    const userId = getUserId();
+    await axios.put(`http://localhost:7000/api/users/${userId}/cart`, {
+      cartItems: updatedCart.map((item) => ({
+        productId: item.productId._id,
+        quantity: item.quantity,
+      })),
+    });
+  };
 
+  const handlePayment = () => {
+    navigate('/payment')
+  };
+
+  const deliveryAmount = 0;
+
+  const calculateDiscount = () =>
+    Math.trunc(cartItems.reduce((discount, item) => discount + (item.productId.discount/100 * item.productId.price ) * item.quantity, 0));
 
   const calculateTotal = () =>
     cartItems.reduce((total, item) => total + item.productId.price * item.quantity, 0);
 
+  const deliveryCharge = () =>
+    deliveryAmount > 0 ? deliveryCharge:0;
+
   return (
     <Box p={4} minHeight="100vh" bgcolor='#f1f3f6'>
+      <Helmet>
+        <title>Cart - {cartItems.length > 0 ? "is empty" : `have ${cartItems.length} items`}</title>
+      </Helmet>
       <Grid container spacing={3}>
         {/* Cart Items Section */}
         <Grid item xs={12} md={8}>
@@ -90,7 +95,7 @@ const updateQuantity = async (productId, newQuantity) => {
 
           {loading ? (
             Array.from({ length: 3 }).map((_, i) => (
-              <Card key={i} elevation={3} sx={{ display: "flex", mb: 2, width: '600px', height:220 }}>
+              <Card key={i} elevation={3} sx={{ display: "flex", mb: 2, width: '600px', height: 220 }}>
                 <Skeleton variant="rectangular" width={140} height={140} />
                 <Box sx={{ flex: 1, p: 2 }}>
                   <Skeleton variant="text" width="60%" />
@@ -107,7 +112,8 @@ const updateQuantity = async (productId, newQuantity) => {
             cartItems.map((item) => (
               <Card key={item.productId._id} elevation={3} sx={{ display: "flex", mb: 2, width: '600px' }}>
                 <CardMedia
-                  component="img" image={item.productId.images?.[0] || "/placeholder.jpg"} alt={item.productId.name} sx={{ width: 140, height: 140, objectFit: "contain", padding: "10px", }}
+                  component="img" image={item.productId.images?.[0] || item.productId.images?.[1] || "/placeholder.jpg"} alt={item.productId.name} 
+                  sx={{ width: 140, height: 140, objectFit: "contain", padding: "10px", }}
                 />
                 <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
                   <CardContent>
@@ -149,40 +155,40 @@ const updateQuantity = async (productId, newQuantity) => {
         </Grid>
 
         {/* Summary Section */}
-        { cartItems.length !== 0 ? (
+        {cartItems.length !== 0 ? (
           <Grid item xs={12} md={4} position={"sticky"} top={130} height="100vh" width={400} overflow="auto">
-          <Paper elevation={3} sx={{ p: 3 }}>
-            <Typography variant="h6" fontWeight={600} mb={2}>
-              PRICE DETAILS
-            </Typography>
-            <Divider />
-            <Box display="flex" justifyContent="space-between" my={1}>
-              <Typography>Price ({cartItems.length} items)</Typography>
-              <Typography>₹{calculateTotal()}</Typography>
-            </Box>
-            <Box display="flex" justifyContent="space-between" my={1}>
-              <Typography>Discount</Typography>
-              <Typography color="green">– ₹0</Typography>
-            </Box>
-            <Box display="flex" justifyContent="space-between" my={1}>
-              <Typography>Delivery Charges</Typography>
-              <Typography color="green">Free</Typography>
-            </Box>
-            <Divider sx={{ my: 2 }} />
-            <Box display="flex" justifyContent="space-between" mb={2}>
-              <Typography variant="h6" fontWeight={600}>
-                Total Amount
+            <Paper elevation={3} sx={{ p: 3 }}>
+              <Typography variant="h6" fontWeight={600} mb={2}>
+                PRICE DETAILS
               </Typography>
-              <Typography variant="h6" fontWeight={600}>
-                ₹{calculateTotal()}
-              </Typography>
-            </Box>
-            <Button variant="contained" color="warning" fullWidth size="large">
-              PLACE ORDER
-            </Button>
-          </Paper>
-        </Grid>
-        ):(<></>)
+              <Divider />
+              <Box display="flex" justifyContent="space-between" my={1}>
+                <Typography>Price ({cartItems.length} items)</Typography>
+                <Typography>₹{calculateTotal()}</Typography>
+              </Box>
+              <Box display="flex" justifyContent="space-between" my={1}>
+                <Typography>Discount</Typography>
+                <Typography color="green"> ₹{calculateDiscount()}</Typography>
+              </Box>
+              <Box display="flex" justifyContent="space-between" my={1}>
+                <Typography>Delivery Charges</Typography>
+                <Typography color="green">{deliveryAmount>0? deliveryAmount:"Free"}</Typography>
+              </Box>
+              <Divider sx={{ my: 2 }} />
+              <Box display="flex" justifyContent="space-between" mb={2}>
+                <Typography variant="h6" fontWeight={600}>
+                  Total Amount
+                </Typography>
+                <Typography variant="h6" fontWeight={600}>
+                  ₹{calculateTotal() - calculateDiscount() + deliveryCharge()}
+                </Typography>
+              </Box>
+              <Button variant="contained" color="warning" fullWidth size="large" onClick={handlePayment} >
+                PLACE ORDER
+              </Button>
+            </Paper>
+          </Grid>
+        ) : (<></>)
         }
 
       </Grid>
